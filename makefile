@@ -4,17 +4,16 @@ EXEC=main
 
 all: $(EXEC)
 
-main: main.o game.o
+main: main.o game.o displayprompt.o colour.o matrix.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-game.o: displayprompt.h colour.h constants.h matrix.h types.h constants.h
-
+main.o: game.h
+game.o: displayprompt.h colour.h constants.h matrix.h types.h
 displayprompt.o: colour.h
-
 %.o: %.c
 	$(CC) -o $@ -c $< $(CFLAGS)
 
-clean: 
+clean:
 	rm -rf *.o
 
 mrproper: clean
