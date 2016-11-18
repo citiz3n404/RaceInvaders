@@ -11,7 +11,9 @@
 #include "matrix.h"
 #include "displayprompt.h"
 #include "colour.h"
+#define gotoxy(x,y) printf("\033[%d;%dH", (x), (y))
 
+// X COL / Y LINE
 
 char key_pressed(){
 	struct termios oldterm, newterm;
@@ -36,36 +38,60 @@ char key_pressed(){
 void runGame(){
 	char c;
 	clrscr();
-	displaySpaceInvader();
+	//displaySpaceInvader();
 
-	int **matrix = create_matrix(NB_LINE, NB_COL);
-	fill_matrix(matrix, NB_LINE, NB_COL, GRID_ELEMENT_EMPTY);
+	//int **matrix = create_matrix(NB_LINE, NB_COL);
+	//fill_matrix(matrix, NB_LINE, NB_COL, GRID_ELEMENT_EMPTY);
 
-	VOITURE voiture = {NB_LINE-1, 2, 'v', 10, 'a'};
+	// X Y
+	//VOITURE voiture = {0, 0, 'v', 10, 'a'};
 
 
-	matrix[5][1] = GRID_ELEMENT_SHOOT;
+	//matrix[5][1] = GRID_ELEMENT_SHOOT;
 
-	displayRoad(matrix);
-	displayScore(200, 99999, 999999);
+	//displayRoad(matrix);
+	//displayScore(200, 99999, 999999);
+	int x=0, y=0;
 
 	while((c=key_pressed()) != 'c'){
-		//SUPPRIMER LA DERNIERE POSITION DANS MATRIX DE VOITURE
-		matrix[voiture.posx][voiture.posy] = GRID_ELEMENT_EMPTY;
-		switch(c){
-			case 'z': voiture.posx -= 1; break;
-			case 's': voiture.posx += 1; break;
-			case 'd': voiture.posy += 1; break;
-			case 'q': voiture.posy -= 1; break;
-		}
-		matrix[voiture.posx][voiture.posy] = GRID_ELEMENT_CAR;
 
-		clrscr();
-		displaySpaceInvader();
-		displayRoad(matrix);
-		displayScore(200, 12, 10);
+		removeCarDisplay(x, y);
+		switch(c){
+			case 'z': y -= 1; break;
+			case 's': y += 1; break;
+			case 'd': x += 1; break;
+			case 'q': x -= 1; break;
+		}
+		updateCarDisplay(c, x, y);
+		//clrscr();
+		//displaySpaceInvader();
+		//displayRoad(matrix);
+		//displayScore(200, 12, 10);
+
 		// UPDATE ALL CARS IN FUNCTION OF SPEED
 		// TEST IF DEAD
 		// UPDATE MATRIX THEN DISPLAY
 	}
 }
+
+void removeCarDisplay(int x, int y){
+	gotoxy(x, y);
+	printf("  ");
+}
+
+// X COL / Y LIN
+void updateCarDisplay(char c, int x, int y){
+	//matrix[voiture.posx][voiture.posy] = GRID_ELEMENT_EMPTY;
+	//posXY(ZERO_ROAD_LINE+ voiture.posx, ZERO_ROAD_COL+voiture.posy);
+	//
+	gotoxy(y, x);
+	//printf("%d, %d", voiture.posy, voiture.posx);
+
+	//foreColour(YELLOW);
+	printf("🚘");
+	//foreColourDefault();
+
+	//matrix[voiture.posx][voiture.posy] = GRID_ELEMENT_CAR;
+}
+
+

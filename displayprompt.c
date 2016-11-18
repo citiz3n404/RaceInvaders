@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "colour.h"
 #include "constants.h"
+#include "types.h"
 
 void displayScore(int speed, int score, int bestScore){
 	posXY(0,1);
@@ -41,6 +42,9 @@ void displaySpaceInvader (){
     }
     printf("\n");
 }
+
+
+
 
 
 void displayRoad(int **matrix){
@@ -99,7 +103,7 @@ void displayRoad(int **matrix){
 }
 
 void displayColours(){
-	int i, j;
+	int i;
 
 	for(i=0; i<255; i++){
 		foreColourNum(i);

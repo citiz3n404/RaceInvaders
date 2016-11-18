@@ -11,14 +11,6 @@ typedef struct voiture {
 	/* Vous pouvez rajouter d’autres variables si nécessaire */
 } VOITURE;
 
-void initCar(VOITURE voiture, int posX, int posY, char type, int color, char etat){
-	voiture.posx = posX;
-	voiture.posy = posY;
-	voiture.type = type;
-	voiture.couleur = color;
-	voiture.etat = etat;
-}
-
 
 typedef struct spaceInvader {
 	int life;

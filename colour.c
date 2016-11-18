@@ -35,6 +35,7 @@ void posXY(int x, int y){
         printf("\e[%d;%dH",y+1,x+1);
     }
 }
+
 void clrscr(){
     printf("\e[2J");
     printf("\e[%d;%dH",0,0);

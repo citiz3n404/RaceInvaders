@@ -2,8 +2,11 @@
 #define CONSTANTS_H_INCLUDED
 
 
-#define NB_LINE 20
+#define NB_LINE 30
 #define NB_COL 3
+
+#define ZERO_ROAD_LINE 10
+#define ZERO_ROAD_COL  42 
 
 #define GRID_ELEMENT_CAR 1
 #define GRID_ELEMENT_BUS 3
