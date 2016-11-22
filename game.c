@@ -51,9 +51,24 @@ void runGame(){
 
 	//displayRoad(matrix);
 	//displayScore(200, 99999, 999999);
-	int x=0, y=0;
+	int x=10, y=10;
 
-	while((c=key_pressed()) != 'c'){
+	gotoxy(x, y);
+	updateCarDisplay(x, y);
+
+	gotoxy(x, y);
+	removeCarDisplay(x ,y);
+
+	x=20; y=4;
+
+	gotoxy(x, y);
+	updateCarDisplay(x, y);
+
+	gotoxy(x, y);
+	removeCarDisplay(x ,y);
+	
+
+	/*while((c=key_pressed()) != 'c'){
 
 		removeCarDisplay(x, y);
 		switch(c){
@@ -71,12 +86,14 @@ void runGame(){
 		// UPDATE ALL CARS IN FUNCTION OF SPEED
 		// TEST IF DEAD
 		// UPDATE MATRIX THEN DISPLAY
-	}
+	}*/
 }
 
 void removeCarDisplay(int x, int y){
-	gotoxy(x, y);
+	backColour(BLACK);
 	printf("  ");
+	backColourDefault();
+	printf("remove %d %d", x, y);
 }
 
 // X COL / Y LIN
@@ -84,11 +101,13 @@ void updateCarDisplay(char c, int x, int y){
 	//matrix[voiture.posx][voiture.posy] = GRID_ELEMENT_EMPTY;
 	//posXY(ZERO_ROAD_LINE+ voiture.posx, ZERO_ROAD_COL+voiture.posy);
 	//
-	gotoxy(y, x);
+	printf("update %d %d", x, y);
 	//printf("%d, %d", voiture.posy, voiture.posx);
 
 	//foreColour(YELLOW);
-	printf("🚘");
+	backColour(BLACK);
+	printf(" 🚘 ");
+	backColourDefault();
 	//foreColourDefault();
 
 	//matrix[voiture.posx][voiture.posy] = GRID_ELEMENT_CAR;

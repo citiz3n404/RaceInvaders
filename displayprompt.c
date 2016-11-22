@@ -70,6 +70,7 @@ void displayRoad(int **matrix){
 					printf(" ");
 					break;
 				case GRID_ELEMENT_EMPTY:
+					
 					printf("   ");
 					break;
 				case GRID_ELEMENT_BUS:
