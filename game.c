@@ -66,7 +66,8 @@ void runGame(){
 
 	gotoxy(x, y);
 	removeCarDisplay(x ,y);
-	
+
+	gotoxy(22, 1);
 
 	/*while((c=key_pressed()) != 'c'){
 
@@ -90,10 +91,10 @@ void runGame(){
 }
 
 void removeCarDisplay(int x, int y){
-	backColour(BLACK);
+	backColour(BLUE);
 	printf("  ");
 	backColourDefault();
-	printf("remove %d %d", x, y);
+	//printf("remove %d %d", x, y);
 }
 
 // X COL / Y LIN
@@ -101,16 +102,14 @@ void updateCarDisplay(char c, int x, int y){
 	//matrix[voiture.posx][voiture.posy] = GRID_ELEMENT_EMPTY;
 	//posXY(ZERO_ROAD_LINE+ voiture.posx, ZERO_ROAD_COL+voiture.posy);
 	//
-	printf("update %d %d", x, y);
+	//printf("update %d %d", x, y);
 	//printf("%d, %d", voiture.posy, voiture.posx);
 
 	//foreColour(YELLOW);
-	backColour(BLACK);
-	printf(" 🚘 ");
+	backColour(RED);
+	printf(" 🚘      ");
 	backColourDefault();
 	//foreColourDefault();
 
 	//matrix[voiture.posx][voiture.posy] = GRID_ELEMENT_CAR;
 }
-
-
