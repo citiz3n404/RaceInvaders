@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "types.h"
 
 int** create_matrix(int nb_line, int nb_col){
 	int i;
@@ -18,4 +19,10 @@ void fill_matrix(int **matrix, int nb_line, int nb_col, int value){
 			matrix[i][j] = value;
 		}
 	}
+}
+
+VOITURE* allocate_cars(int nb_cars){
+	VOITURE *voitures;
+	voitures = malloc(sizeof(VOITURE)*nb_cars);
+	return voitures;
 }

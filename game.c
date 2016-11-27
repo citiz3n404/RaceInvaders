@@ -11,7 +11,7 @@
 #include "matrix.h"
 #include "displayprompt.h"
 #include "colour.h"
-#define gotoxy(x,y) printf("\033[%d;%dH", (x), (y))
+#define gotoxy(y,x) printf("\033[%d;%dH", (x), (y))
 
 // X COL / Y LINE
 
@@ -38,78 +38,61 @@ char key_pressed(){
 void runGame(){
 	char c;
 	clrscr();
-	//displaySpaceInvader();
+	displaySpaceInvader();
 
-	//int **matrix = create_matrix(NB_LINE, NB_COL);
-	//fill_matrix(matrix, NB_LINE, NB_COL, GRID_ELEMENT_EMPTY);
+	int **matrix = create_matrix(NB_LINE, NB_COL);
+	fill_matrix(matrix, NB_LINE, NB_COL, GRID_ELEMENT_EMPTY);
 
 	// X Y
-	//VOITURE voiture = {0, 0, 'v', 10, 'a'};
+	VOITURE voiture = {5, 29, 'v', 10, 'a'};
+	VOITURE voiture2 = {5, 28, 'c', RED, 'a'};
+
+	VOITURE *voitures = allocate_cars(30);
 
 
-	//matrix[5][1] = GRID_ELEMENT_SHOOT;
+	matrix[5][1] = GRID_ELEMENT_SHOOT;
 
-	//displayRoad(matrix);
-	//displayScore(200, 99999, 999999);
-	int x=10, y=10;
+	displayRoad(matrix);
+	displayScore(0, 0, 0);
 
-	gotoxy(x, y);
-	updateCarDisplay(x, y);
 
-	gotoxy(x, y);
-	removeCarDisplay(x ,y);
+	while((c=key_pressed()) != 'c'){
 
-	x=20; y=4;
-
-	gotoxy(x, y);
-	updateCarDisplay(x, y);
-
-	gotoxy(x, y);
-	removeCarDisplay(x ,y);
-
-	gotoxy(22, 1);
-
-	/*while((c=key_pressed()) != 'c'){
-
-		removeCarDisplay(x, y);
+		removeCarDisplay(voiture);
 		switch(c){
-			case 'z': y -= 1; break;
-			case 's': y += 1; break;
-			case 'd': x += 1; break;
-			case 'q': x -= 1; break;
+			case 'z': voiture.posy -= 1; break;
+			case 's': voiture.posy += 1; break;
+			case 'd': voiture.posx += 5; break;
+			case 'q': voiture.posx -= 5; break;
 		}
-		updateCarDisplay(c, x, y);
-		//clrscr();
-		//displaySpaceInvader();
-		//displayRoad(matrix);
-		//displayScore(200, 12, 10);
-
+		updateCarDisplay(voiture);
+		updateCarDisplay(voiture2);
 		// UPDATE ALL CARS IN FUNCTION OF SPEED
 		// TEST IF DEAD
 		// UPDATE MATRIX THEN DISPLAY
-	}*/
+	}
 }
 
-void removeCarDisplay(int x, int y){
-	backColour(BLUE);
-	printf("  ");
+void removeCarDisplay(VOITURE voiture){
+	gotoxy(ZERO_ROAD_LINE+ voiture.posx+1, ZERO_ROAD_COL+voiture.posy+1);
+	//gotoxy(x, y);
+	backColour(BLACK);
+	printf("   ");
 	backColourDefault();
-	//printf("remove %d %d", x, y);
+	gotoxy(20, 1);
 }
 
 // X COL / Y LIN
-void updateCarDisplay(char c, int x, int y){
-	//matrix[voiture.posx][voiture.posy] = GRID_ELEMENT_EMPTY;
-	//posXY(ZERO_ROAD_LINE+ voiture.posx, ZERO_ROAD_COL+voiture.posy);
-	//
-	//printf("update %d %d", x, y);
-	//printf("%d, %d", voiture.posy, voiture.posx);
-
-	//foreColour(YELLOW);
-	backColour(RED);
-	printf(" 🚘      ");
+void updateCarDisplay(VOITURE voiture){
+	gotoxy(ZERO_ROAD_LINE+ voiture.posx+1, ZERO_ROAD_COL+voiture.posy+1);
+	backColour(BLACK);
+	foreColour(voiture.couleur);
+	if(voiture.type == 'v'){
+		printf(" 🚘 ");
+	}else if(voiture.type == 'c'){
+		printf(" 🚍 ");
+	}
+	foreColourDefault();
 	backColourDefault();
-	//foreColourDefault();
-
-	//matrix[voiture.posx][voiture.posy] = GRID_ELEMENT_CAR;
+	gotoxy(1, 45);
 }

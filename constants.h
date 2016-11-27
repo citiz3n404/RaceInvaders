@@ -5,8 +5,8 @@
 #define NB_LINE 30
 #define NB_COL 3
 
-#define ZERO_ROAD_LINE 10
-#define ZERO_ROAD_COL  42 
+#define ZERO_ROAD_LINE 41
+#define ZERO_ROAD_COL  10
 
 #define GRID_ELEMENT_CAR 1
 #define GRID_ELEMENT_BUS 3
