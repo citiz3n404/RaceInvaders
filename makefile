@@ -1,11 +1,12 @@
 CC=gcc
 CFLAGS=-Wall
+SDLFLAG=-lSDL2
 EXEC=main
 
 all: $(EXEC)
 
 main: main.o game.o displayprompt.o colour.o matrix.o
-	$(CC) -o $@ $^ $(LDFLAGS)
+	$(CC) -o $@ $^ $(LDFLAGS) $(SDLFLAG)
 
 main.o: game.h
 game.o: displayprompt.h colour.h constants.h matrix.h types.h

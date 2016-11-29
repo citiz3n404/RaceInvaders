@@ -5,6 +5,8 @@
 #define NB_LINE 30
 #define NB_COL 3
 
+#define NB_CARS 30
+
 #define ZERO_ROAD_LINE 41
 #define ZERO_ROAD_COL  10
 

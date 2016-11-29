@@ -5,6 +5,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "types.h"
 #include "constants.h"
@@ -37,54 +38,116 @@ char key_pressed(){
 
 void runGame(){
 	char c;
-	clrscr();
-	displaySpaceInvader();
+	
 
 	int **matrix = create_matrix(NB_LINE, NB_COL);
 	fill_matrix(matrix, NB_LINE, NB_COL, GRID_ELEMENT_EMPTY);
 
 	// X Y
-	VOITURE voiture = {5, 29, 'v', 10, 'a'};
-	VOITURE voiture2 = {5, 28, 'c', RED, 'a'};
+	VOITURE voiture = {1, 28, 'v', 10, 'a', 7};
+	VOITURE voiture2 = {1, 0, 'c', RED, 'a', 2};
 
-	VOITURE *voitures = allocate_cars(30);
+	VOITURE *voitures = allocate_cars(NB_CARS);
+
+	int i = 0;
+	for(i=0; i<2; i++){
+		voitures[i].posy = 0;
+		voitures[i].posx = rand()%3;
+		voitures[i].couleur = rand()%8;
+		int tmp = rand()%2;
+		if(tmp == 1){
+			voitures[i].type ='c';
+		}else{
+			voitures[i].type = 'v';
+		}
+		voitures[i].etat = 'a';
+		voitures[i].vitesse = rand()%7;
+	}
 
 
 	matrix[5][1] = GRID_ELEMENT_SHOOT;
 
+	clrscr();
+	displaySpaceInvader();
 	displayRoad(matrix);
 	displayScore(0, 0, 0);
 
+	int j=0;
+	for(j=0; j<2; j++){
+		//updateCarDisplay(voitures[j]);
+	}
+	updateCarDisplay(voiture2);
+	updateCarDisplay(voiture);
+
+	int current=0, last = 0;
 
 	while((c=key_pressed()) != 'c'){
+		current = SDL_GetTicks();
 
-		removeCarDisplay(voiture);
-		switch(c){
-			case 'z': voiture.posy -= 1; break;
-			case 's': voiture.posy += 1; break;
-			case 'd': voiture.posx += 5; break;
-			case 'q': voiture.posx -= 5; break;
+		
+		if(current > last + 200){
+				removeCarDisplay(voiture2);
+				updateCarPosition(voiture, &voiture2);
+				updateCarDisplay(voiture2);
+				last = current;
 		}
-		updateCarDisplay(voiture);
-		updateCarDisplay(voiture2);
+		
+
+		switch(c){
+			case 'z': 
+				/*for(i=0; i<2; i++){
+					removeCarDisplay(voitures[i]);
+					updateCarPosition(voiture, voitures[i]);
+					updateCarDisplay(voitures[i]);
+				}*/
+				
+				break;
+			//case 's': voiture.posy += 1; break;
+			case 'd': removeCarDisplay(voiture); 
+						voiture.posx += 1; 
+						updateCarDisplay(voiture); 
+						break;
+			case 'q': removeCarDisplay(voiture); 
+						voiture.posx -= 1; 
+						updateCarDisplay(voiture); 
+						break;
+		}
+		
+		gotoxy(1, 45);
 		// UPDATE ALL CARS IN FUNCTION OF SPEED
 		// TEST IF DEAD
 		// UPDATE MATRIX THEN DISPLAY
+
 	}
 }
 
+
+void updateCarPosition(VOITURE vPlayer, VOITURE* v2){
+	int i=0;
+	v2->posy = v2->posy + 1;
+	gotoxy(1, 45);
+	printf("%3d %3d",v2->posx, v2->posy);
+	/*for(i=0; i<NB_CARS; i++){
+		if(vPlayer.vitesse < v2.vitesse){
+			v2.posy -= 1;
+		}else if(vPlayer.vitesse > v2.vitesse){
+			v2.posy += 1;
+		}
+	}*/
+
+}
+
 void removeCarDisplay(VOITURE voiture){
-	gotoxy(ZERO_ROAD_LINE+ voiture.posx+1, ZERO_ROAD_COL+voiture.posy+1);
-	//gotoxy(x, y);
+	gotoxy(ZERO_ROAD_LINE+ (voiture.posx*5)+1, ZERO_ROAD_COL+voiture.posy+1);
 	backColour(BLACK);
 	printf("   ");
 	backColourDefault();
-	gotoxy(20, 1);
+	
 }
 
 // X COL / Y LIN
 void updateCarDisplay(VOITURE voiture){
-	gotoxy(ZERO_ROAD_LINE+ voiture.posx+1, ZERO_ROAD_COL+voiture.posy+1);
+	gotoxy(ZERO_ROAD_LINE+ (voiture.posx*5)+1, ZERO_ROAD_COL+voiture.posy+1);
 	backColour(BLACK);
 	foreColour(voiture.couleur);
 	if(voiture.type == 'v'){
@@ -94,5 +157,6 @@ void updateCarDisplay(VOITURE voiture){
 	}
 	foreColourDefault();
 	backColourDefault();
-	gotoxy(1, 45);
 }
+
+

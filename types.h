@@ -8,6 +8,7 @@ typedef struct voiture {
 	char type; /* ’v’=>voiture, ’c’=>camion, etc. */
 	int couleur; /* Couleur du véhicule */
 	char etat; /* État du véhicule => actif ou inactif */
+	int vitesse;
 	/* Vous pouvez rajouter d’autres variables si nécessaire */
 } VOITURE;
 
