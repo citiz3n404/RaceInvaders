@@ -291,20 +291,16 @@ void updateCarPosition(VOITURE vPlayer, VOITURE* v2){
 
 void printScore(int score){
 	gotoxy(15, 5);
-	backColour(BLACK);
 	foreColour(YELLOW);
 	printf("%6d", score);
     foreColourDefault();
-	backColourDefault();
 }
 
 void printSpeed(int speed){
 	gotoxy(14, 3);
-	backColour(BLACK);
 	foreColour(CYAN);
 	printf("%6d", speed);
     foreColourDefault();
-	backColourDefault();
 }
 
 
