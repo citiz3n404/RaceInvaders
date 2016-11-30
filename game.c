@@ -42,6 +42,18 @@ char key_pressed(){
 	return result;
 }
 
+int isCrashed(VOITURE vPlayer, VOITURE* liste){
+	int i=0;
+	for(i=0;i<NB_CARS; i++){
+		if(liste[i].etat == 'a'){
+			if(liste[i].posx == vPlayer.posx && liste[i].posy == vPlayer.posy){
+				return 1;
+			}
+		}
+	}
+	return 0;
+}
+
 void addCars(VOITURE* voitures){
 	if(rand()%3 == 1){
 		int i = rand()%2 +1;
@@ -52,7 +64,7 @@ void addCars(VOITURE* voitures){
 				voitures[j].etat = 'a';
 				voitures[j].posy = 0;
 				voitures[j].posx = rand()%3;
-				voitures[j].couleur = rand()%8;
+				voitures[j].couleur = rand()%8+1;
 				voitures[j].vitesse = rand()%7;
 				int tmp = rand()%2;
 				if(tmp == 1){
@@ -178,7 +190,7 @@ void runGame(){
 			updateCarDisplay(voiture);
 			updateMatrixRoad(road, voitures);
 			//CRASH
-			if(voiture.posx == road[voiture.posx][voiture.posy].posx && voiture.posy == road[voiture.posx][voiture.posy].posy){
+			if(isCrashed(voiture, voitures)){
 				gotoxy(1,45);
 				exit(0);
 
