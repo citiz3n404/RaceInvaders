@@ -24,5 +24,16 @@ void fill_matrix(int **matrix, int nb_line, int nb_col, int value){
 VOITURE* allocate_cars(int nb_cars){
 	VOITURE *voitures;
 	voitures = malloc(sizeof(VOITURE)*nb_cars);
+
+	return voitures;
+}
+
+VOITURE** allocate_road_matrix(int nb_line, int nb_col){
+	VOITURE **voitures;
+	voitures = malloc(sizeof(VOITURE*)*nb_line);
+	int i =0;
+	for(i=0;i<nb_line; i++){
+		voitures[i] = malloc(sizeof(VOITURE)*nb_col);
+	}
 	return voitures;
 }
