@@ -108,6 +108,7 @@ void updateMatrixRoad(VOITURE **matrix, VOITURE *liste){
 void runGame(){
 	char c;
 	int score = 0;
+	srand(time(NULL));
 
 	int **matrix = create_matrix(NB_LINE, NB_COL);
 	fill_matrix(matrix, NB_LINE, NB_COL, GRID_ELEMENT_EMPTY);
