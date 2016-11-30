@@ -9,7 +9,7 @@ main: main.o game.o displayprompt.o colour.o matrix.o
 	$(CC) -o $@ $^ $(LDFLAGS) $(SDLFLAG)
 
 main.o: game.h
-game.o: displayprompt.h colour.h constants.h matrix.h types.h
+game.o: displayprompt.h colour.h constants.h matrix.h types.h sound.h
 displayprompt.o: colour.h
 %.o: %.c
 	$(CC) -o $@ -c $< $(CFLAGS)

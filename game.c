@@ -13,7 +13,11 @@
 #include "displayprompt.h"
 #include "colour.h"
 #include "game.h"
+
 #define gotoxy(y,x) printf("\033[%d;%dH", (x), (y))
+
+
+const char * sound_bip= "./sounds/bip.mp3";
 
 // X COL / Y LINE
 
@@ -38,7 +42,7 @@ char key_pressed(){
 }
 
 void addCars(VOITURE* voitures){
-	if(rand()%2 == 1){
+	if(rand()%3 == 1){
 		int i = rand()%2 +1;
 		int cmpt = 0, j=0;
 		for(j=0; j<NB_CARS; j++){
@@ -85,7 +89,12 @@ void putCarsIntoRoad(VOITURE **matrix, VOITURE *liste){
 	int i=0; 
 	for(i=0;i<NB_CARS; i++){
 		if(liste[i].etat == 'a' && liste[i].posy>=0){
-			matrix[liste[i].posx][liste[i].posy] = liste[i];
+			matrix[liste[i].posx][liste[i].posy].posx = liste[i].posx;
+			matrix[liste[i].posx][liste[i].posy].posy = liste[i].posy;
+			matrix[liste[i].posx][liste[i].posy].couleur = liste[i].couleur;
+			matrix[liste[i].posx][liste[i].posy].etat = liste[i].etat;
+			matrix[liste[i].posx][liste[i].posy].type = liste[i].type;
+			matrix[liste[i].posx][liste[i].posy].vitesse = liste[i].vitesse;
 		}
 	}
 }
@@ -97,7 +106,7 @@ void updateMatrixRoad(VOITURE **matrix, VOITURE *liste){
 
 void runGame(){
 	char c;
-	
+	int score = 0;
 
 	int **matrix = create_matrix(NB_LINE, NB_COL);
 	fill_matrix(matrix, NB_LINE, NB_COL, GRID_ELEMENT_EMPTY);
@@ -148,23 +157,29 @@ void runGame(){
 		//TOUTES LES 200ms
 		if(current > last + speed){
 			//
-			
+			printSpeed(voiture.vitesse * 30);
             for(i=0; i<NB_CARS; i++){
                 if(voitures[i].posy > 28){
                 	//Si la voiture est passée
                 	removeCarDisplay(voitures[i]); 
                     voitures[i].etat = 'p';
                     voitures[i].posy = 0;
+                    score += (int)voiture.vitesse*5;
+                    printScore(score);
+                    
                 }
             }
 			removeCarsDisplay(voitures);
 			updateCarsPosition(voiture, voitures);
 			updateCarsDisplay(voitures);
 			addCars(voitures);
+			updateCarDisplay(voiture);
 			updateMatrixRoad(road, voitures);
 			//CRASH
 			if(voiture.posx == road[voiture.posx][voiture.posy].posx && voiture.posy == road[voiture.posx][voiture.posy].posy){
+				gotoxy(1,45);
 				exit(0);
+
 			}
 			//générer une voiture ou pas./
 			last = current;
@@ -174,9 +189,16 @@ void runGame(){
 
 		switch(c){
 			case 'z': 
+				playSound(sound_bip);
+				if(voiture.vitesse < 8){
 					speed -= 30; voiture.vitesse ++;
+				}
 				break;
-			case 's': speed +=30; voiture.vitesse --; 
+			case 's': 
+				if(voiture.vitesse >1){
+					speed +=30; voiture.vitesse --; 
+				}
+				
 				break;
 			case 'd': 
 				if(!(voiture.posx +1 > 2)){
@@ -264,4 +286,45 @@ void updateCarPosition(VOITURE vPlayer, VOITURE* v2){
 	    	v2->posy += 1;
     	}
     }
+}
+
+void printScore(int score){
+	gotoxy(15, 5);
+	backColour(BLACK);
+	foreColour(YELLOW);
+	printf("%6d", score);
+    foreColourDefault();
+	backColourDefault();
+}
+
+void printSpeed(int speed){
+	gotoxy(14, 3);
+	backColour(BLACK);
+	foreColour(CYAN);
+	printf("%6d", speed);
+    foreColourDefault();
+	backColourDefault();
+}
+
+
+void playSound(const char * name){
+	char * res = malloc(100*sizeof(char));
+	char * play = "play -q ";
+	char * esperluette="&";
+
+	strcat(res, play);
+	strcat(res, name);
+	strcat(res, esperluette);
+
+	system(res);
+}
+
+void killSound(const char * name){
+	char * res = malloc(100*sizeof(char));
+	char * script ="./sound_script.sh ";
+
+	strcat(res, script);
+	strcat(res, name);
+
+	system(res);
 }
